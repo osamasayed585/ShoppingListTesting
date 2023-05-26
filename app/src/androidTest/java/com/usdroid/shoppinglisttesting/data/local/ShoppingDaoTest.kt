@@ -20,19 +20,18 @@ class ShoppingDaoTest {
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var database: ShoppingItemsDB
+    private lateinit var database: ShoppingItemsDatabase
     private lateinit var dao: ShoppingDao
 
     @Before
     fun setup() {
         database = Room.inMemoryDatabaseBuilder(
             ApplicationProvider.getApplicationContext(),
-            ShoppingItemsDB::class.java
+            ShoppingItemsDatabase::class.java
         ).allowMainThreadQueries().build()
 
         dao = database.shoppingDao()
     }
-
     @After
     fun teardown() {
         database.close()
@@ -40,7 +39,7 @@ class ShoppingDaoTest {
 
     @Test
     fun insertShoppingItem() = runBlocking {
-        val shoppingItem = ShoppingItem("Apple", 1, 2f, "image url for apple", id = 1)
+        val shoppingItem = ShoppingItem("APPLE", 1, 2f, "Image url for apple", id = 1)
         dao.insertShoppingItem(shoppingItem)
 
         val allShoppingItems = dao.observeAllShoppingItems().getOrAwaitValue()
